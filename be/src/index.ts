@@ -9,10 +9,10 @@ import './controllers/TestAPIContoller';
 
 
 const app = express();
-app.use(cors());
 
+// app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cookieSession({ keys: ['laskdjf'] }));
+app.use(cookieSession({ keys: ['sample'] }));
 app.use(AppRouter.getInstance());
 
 app.listen(3000, () => {

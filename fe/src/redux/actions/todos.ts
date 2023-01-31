@@ -76,14 +76,6 @@ export const fetchTodos = () => {
     };
 };
 
-export const deleteTodo = (id: string): DeleteTodoAction => {
-    return{
-        type: ActionTypes.deleteTodo,
-        payload: id
-    }
-}
-
-
 // to be fixed
 export const addTodo = (data: Todo) => {
     return async(dispatch:Dispatch) => {
@@ -107,3 +99,12 @@ export const updateTodo = (id: string, data: Todo) => {
         })
     };
 };
+
+export const deleteTodo = (id: string): DeleteTodoAction => {
+    return{
+        type: ActionTypes.deleteTodo,
+        payload: id
+    }
+}
+
+
