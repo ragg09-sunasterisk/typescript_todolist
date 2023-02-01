@@ -122,7 +122,7 @@ class _App extends Component<AppProps> {
                 value={updateText} 
                 onChange={this.onInputChangeUpdate} />
             :
-              <p onClick={()=>{console.log("clicked")}}>{todo.text}:done</p>
+              <p onClick={()=>{console.log("clicked")}}>{todo.text}</p>
             }
           </div>
           <button onClick={() => this.onTodoClick(todo.id)}>X</button>
