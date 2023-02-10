@@ -24,18 +24,19 @@ class _App extends Component<AppProps> {
     text: '',
     updateText: '',
     isEditing: false,
-    editableID: ''
+    editableID: '',
+    // editTodo: []
   }
 
-  // componentDidMount(): void {
-  //     this.props.fetchTodos();
-  // }
+
+  componentDidMount(): void {
+      this.props.fetchTodos();
+      console.log(this.props.todos);
+  }
 
   handlerFetchTodo = (): void => {
     this.props.fetchTodos();
-
     console.log(this.props.todos);
-    
   };
 
   handlerAddTodo = (e: React.FormEvent<HTMLFormElement>|React.MouseEvent<HTMLButtonElement>) => {
@@ -43,9 +44,7 @@ class _App extends Component<AppProps> {
 
     console.log("clicked");
 
-    // i have to use urlseachparam since I am using encodedurl
-    // I am not actually sure why this happened, but  this behavior
-    // occurs in postman, and I cant use the form-data, I ben stuck in this part for a long time, so to proceed, I have to use urlencoded for a while
+    // i have to use urlseachparam since I am using encodedurl in my express setup
     const params = new URLSearchParams();
     params.append('text', this.state.text);
 
@@ -55,6 +54,11 @@ class _App extends Component<AppProps> {
     
 
     this.props.addTodo(params);
+
+    
+    this.setState({
+      text: ''
+    });
   };
 
   onTodoClick = (id: string): void => {
@@ -77,6 +81,20 @@ class _App extends Component<AppProps> {
   };
 
   editState = (id: string, text: string): void => {
+
+    // this.setState({
+    //   editTodo: todo,
+    // })
+
+    // console.log(this.state.editTodo);
+
+    
+
+    // console.log(todo);
+
+
+    
+
     this.setState({
       isEditing: true,
       editableID: id,
@@ -94,19 +112,32 @@ class _App extends Component<AppProps> {
     console.log(e.target.value);
     this.setState({[e.target.name]: e.target.value});
 
-}
+  }
 
   renderTodoForm(): JSX.Element {
     const {text} = this.state;
     return (
-      <div >
-        <p>Insert Text</p>
-       <form onSubmit={this.handlerAddTodo}>
-        <input type="text" name='text' 
-        value={text} 
-        onChange={this.onInputChange} />
-        <button type='submit'>Submit</button>
-       </form>
+      <div className='mt-10 mb-10'>
+        <form className="w-full max-w-lg" onSubmit={this.handlerAddTodo}>
+          {/* <input type="text" name='text' 
+          value={text} 
+          onChange={this.onInputChange} /> */}
+
+        <div className="flex flex-wrap -mx-3 mb-6">
+            <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+              <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-text-input">
+                Insert New Todo
+              </label>
+              <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-text-input" type="text" name='text' 
+          value={text} 
+          onChange={this.onInputChange} />
+              <p className="text-red-500 text-xs italic">Please fill out this field.</p>
+            </div>
+          </div>
+          <button className="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="submit">
+        Add
+      </button>
+        </form>
       </div>
     );
   }
@@ -115,30 +146,53 @@ class _App extends Component<AppProps> {
     const {isEditing, editableID, updateText} = this.state;
     return this.props.todos.map((todo:Todo)=>{
       return (
-        <div  key={todo.id}>
-          <div>
-            {isEditing&&editableID===todo.id?
-              <input type="text" name='updateText' 
+        <ul className='list-disc' key={todo.id}>
+          <li>
+          {isEditing&&editableID===todo.id?
+              <input type="text" name='updateText' className='appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'
                 value={updateText} 
                 onChange={this.onInputChangeUpdate} />
             :
-              <p onClick={()=>{console.log("clicked")}}>{todo.text}</p>
-            }
-          </div>
-          <button onClick={() => this.onTodoClick(todo.id)}>X</button>
-          <div>
+              <h2 className='font-medium leading-tight text-4xl mt-0 mb-2'>{todo.text}</h2>
+            }  
+            <div className="flex space-x-3">
+            <button type="button" className="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out" onClick={() => this.onTodoClick(todo.id)}>Del</button>
+
             {isEditing&&editableID===todo.id?
-            <button onClick={() => this.handlerUpdate(todo.id)}>
-              submit Update
-            </button>
+              <button type="button" className="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out" onClick={() => this.handlerUpdate(todo.id)}>Update</button>
             :
-            <button onClick={() =>this.editState(todo.id, todo.text)}>
-            edit
-          </button> 
+            <button type="button" className="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out" onClick={() =>this.editState(todo.id, todo.text)}>Edit</button>
             }
+
+            
           </div>
+            </li>
+        </ul>
+
+        // <div  key={todo.id}>
+        //   <div>
+        //     {isEditing&&editableID===todo.id?
+        //       <input type="text" name='updateText' 
+        //         value={updateText} 
+        //         onChange={this.onInputChangeUpdate} />
+        //     :
+        //       <p onClick={()=>{console.log("clicked")}}>{todo.text}</p>
+        //     }
+        //   </div>
+        //   <button onClick={() => this.onTodoClick(todo.id)}>X</button>
+        //   <div>
+        //     {isEditing&&editableID===todo.id?
+        //     <button onClick={() => this.handlerUpdate(todo.id)}>
+        //       submit Update
+        //     </button>
+        //     :
+        //     <button onClick={() =>this.editState(todo.id, todo.text)}>
+        //     edit
+        //   </button> 
+        //     }
+        //   </div>
           
-        </div>
+        // </div>
     );
     });
   }
@@ -148,13 +202,15 @@ class _App extends Component<AppProps> {
 
         
     return (
-      <div>
+      <div className='container mx-auto'>
+
+        <h1 className="text-3xl font-bold underline">Todo Checklist</h1>
 
         {this.renderTodoForm()}
 
-        <button onClick={this.handlerFetchTodo}>Fetch</button>
+        {/* <button onClick={this.handlerFetchTodo}>Fetch</button> */}
 
-        <button onClick={this.handlerAddTodo}>Add Todo</button>
+        {/* <button onClick={this.handlerAddTodo}>Add Todo</button> */}
       
         {this.renderTodos()}
       </div>

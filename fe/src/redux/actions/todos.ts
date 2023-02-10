@@ -101,10 +101,20 @@ export const updateTodo = (id: string, data: Todo) => {
 };
 
 export const deleteTodo = (id: string): DeleteTodoAction => {
+    axios.delete(todoURL+"/"+id);
     return{
         type: ActionTypes.deleteTodo,
         payload: id
     }
+
+    // return async(dispatch:Dispatch) => {
+    //     const res = await axios.delete(todoURL+"/"+id);
+
+    //     dispatch<DeleteTodoAction>({
+    //         type: ActionTypes.deleteTodo,
+    //         payload: id
+    //     })
+    // };
 }
 
 
