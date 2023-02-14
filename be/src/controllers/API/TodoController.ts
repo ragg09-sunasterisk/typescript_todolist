@@ -1,5 +1,5 @@
 import { Request, Response, } from "express";
-import { get, post, put, del, controller, bodyValidator } from "./decorators";
+import { get, post, put, del, controller, bodyValidator } from "./../decorators";
 
 
 type RequestBody = {text: string};
@@ -14,7 +14,7 @@ interface Todo {
 let todos: Todo[] = [
     {
         id: new Date().toISOString(),
-        text: "First todo item 1111",
+        text: "First todo item API",
         completed: true,
     }
 ];

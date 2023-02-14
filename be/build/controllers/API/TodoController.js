@@ -9,11 +9,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var decorators_1 = require("./decorators");
+var decorators_1 = require("./../decorators");
 var todos = [
     {
         id: new Date().toISOString(),
-        text: "First todo item 1111",
+        text: "First todo item API",
         completed: true,
     }
 ];

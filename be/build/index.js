@@ -10,6 +10,7 @@ var AppRouter_1 = require("./AppRouter");
 require("./controllers/LoginController");
 require("./controllers/RootController");
 require("./controllers/TestAPIContoller");
+// import './controllers/API/TodoController'
 var app = (0, express_1.default)();
 // app.use(cors());
 app.use(body_parser_1.default.urlencoded({ extended: true }));
